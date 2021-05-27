@@ -12,14 +12,23 @@ namespace ProductorConsumidor
 {
     public partial class FORM_Home : Form
     {
+        // Config //
+
+        static int containerCapacity = 20;
+
+        bool updateNumberOnDequeue = true;
+        Color emptyCellColor = Color.FromName("Control");
+        Color occupiedCellColor = Color.FromName("LightSkyBlue");
+        String directionOfVisualization = "LTR"; // Left To Right (LTR) or Right To Left (RTL)
+
         // Logic //
 
-        Queue<int> container = new Queue<int>(20);
+        Queue<int> container = new Queue<int>(containerCapacity);
 
         int headIndex = -1;
         int tailIndex = -1;
 
-        int emptyCells = 20;
+        int emptyCells = containerCapacity;
         int occupiedCells = 0;
 
 
@@ -27,14 +36,10 @@ namespace ProductorConsumidor
 
         Label[] labelArray;
 
-        Color emptyCellColor = Color.FromName("Control");
-        Color occupiedCellColor = Color.FromName("LightSkyBlue");
-
         public FORM_Home()
         {
             InitializeComponent();
-            InitializeLabelArray();
-
+            InitializeLabelArray(directionOfVisualization);
         }
 
         private void BTN_Start_Click(object sender, EventArgs e)
@@ -44,17 +49,26 @@ namespace ProductorConsumidor
 
         // Logic //
 
+        private bool IsEmpty()
+        {
+            return (container.Count == 0) ? true : false;
+        }
+
+        private bool IsFull()
+        {
+            return (container.Count == containerCapacity) ? true : false;
+        }
+
         private void Queue()
         {
-           if(container.Count == 20)
+           if(container.Count == containerCapacity)
             {
-                MessageBox.Show("CONTAINER LLENO");
                 return;
             }
 
             headIndex++;
            
-            if(headIndex > 19)
+            if(headIndex > containerCapacity - 1)
             {
                 headIndex = 0;
             }
@@ -80,11 +94,10 @@ namespace ProductorConsumidor
         {
             if (container.Count == 0)
             {
-                MessageBox.Show("CONTAINER VACIO");
                 return;
             }
 
-            if(tailIndex > 19)
+            if(tailIndex > containerCapacity - 1)
             {
                 tailIndex = 0;
             }
@@ -96,18 +109,40 @@ namespace ProductorConsumidor
             tailIndex++;
 
             ChangeCellCount(++emptyCells, --occupiedCells);
+
+            if (updateNumberOnDequeue)
+            {
+                UpdateNumbers();
+            }
         }
 
         // UI //
 
-        private void InitializeLabelArray()
+        private void InitializeLabelArray(String direction)
         {
-            labelArray = new Label[20];
+            labelArray = new Label[containerCapacity];
 
-            for(int i = 0; i < 20; i++)
+            if(direction == "LTR")
             {
-                Label temp = (Label)Controls.Find($"LBL_{i}", true).First();
-                labelArray[i] = temp;
+                for (int i = 0; i < containerCapacity; i++)
+                {
+                    Label temp = (Label)Controls.Find($"LBL_{i}", true).First();
+                    temp.Text = (i+1).ToString();
+                    labelArray[i] = temp;
+                }
+            }
+
+            else if(direction == "RTL")
+            {
+                int aux = containerCapacity - 1;
+
+                for(int i = 0; i < containerCapacity; i++)
+                {
+                    Label temp = (Label)Controls.Find($"LBL_{aux}", true).First();
+                    temp.Text = (i + 1).ToString();
+                    labelArray[i] = temp;
+                    aux--;
+                }
             }
         }
 
@@ -116,12 +151,44 @@ namespace ProductorConsumidor
             labelArray[index].BackColor = color;
             this.Refresh();
         }
-
+        private void ChangeCellNumber(int index, String number)
+        {
+            labelArray[index].Text = number;
+            this.Refresh();
+        }
         private void ChangeCellCount(int emptyCells, int occupiedCells)
         {
 
             LBL_Count.Text = $"Vacios: {emptyCells}     Llenos: {occupiedCells}";
             this.Refresh();
+        }
+        private void UpdateNumbers()
+        {
+            int counter = 1;
+            int index = tailIndex;
+
+            while (counter <= containerCapacity)
+            {
+                if (index > containerCapacity - 1)
+                {
+                    index = 0;
+                }
+
+                ChangeCellNumber(index, counter.ToString());
+
+                index++;
+                counter++;
+            }
+        }
+
+        private void QUE_Click(object sender, EventArgs e)
+        {
+            Queue();
+        }
+
+        private void DEQ_Click(object sender, EventArgs e)
+        {
+            Dequeue();
         }
     }
 }

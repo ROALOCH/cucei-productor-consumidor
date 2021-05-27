@@ -59,6 +59,8 @@ namespace ProductorConsumidor
             this.LBL_ConsumerStatus = new System.Windows.Forms.Label();
             this.GB_Flags = new System.Windows.Forms.GroupBox();
             this.BTN_Start = new System.Windows.Forms.Button();
+            this.QUE = new System.Windows.Forms.Button();
+            this.DEQ = new System.Windows.Forms.Button();
             this.GB_Container.SuspendLayout();
             this.GB_Producer.SuspendLayout();
             this.GB_Consumer.SuspendLayout();
@@ -388,10 +390,38 @@ namespace ProductorConsumidor
             this.BTN_Start.UseVisualStyleBackColor = true;
             this.BTN_Start.Click += new System.EventHandler(this.BTN_Start_Click);
             // 
+            // QUE
+            // 
+            this.QUE.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.QUE.FlatAppearance.BorderSize = 0;
+            this.QUE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.QUE.Location = new System.Drawing.Point(900, 614);
+            this.QUE.Name = "QUE";
+            this.QUE.Size = new System.Drawing.Size(123, 35);
+            this.QUE.TabIndex = 26;
+            this.QUE.Text = "Q";
+            this.QUE.UseVisualStyleBackColor = true;
+            this.QUE.Click += new System.EventHandler(this.QUE_Click);
+            // 
+            // DEQ
+            // 
+            this.DEQ.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DEQ.FlatAppearance.BorderSize = 0;
+            this.DEQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DEQ.Location = new System.Drawing.Point(1029, 614);
+            this.DEQ.Name = "DEQ";
+            this.DEQ.Size = new System.Drawing.Size(123, 35);
+            this.DEQ.TabIndex = 27;
+            this.DEQ.Text = "D";
+            this.DEQ.UseVisualStyleBackColor = true;
+            this.DEQ.Click += new System.EventHandler(this.DEQ_Click);
+            // 
             // FORM_Home
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.DEQ);
+            this.Controls.Add(this.QUE);
             this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.GB_Flags);
             this.Controls.Add(this.GB_Consumer);
@@ -442,6 +472,8 @@ namespace ProductorConsumidor
         private System.Windows.Forms.Label LBL_ConsumerStatus;
         private System.Windows.Forms.GroupBox GB_Flags;
         private System.Windows.Forms.Button BTN_Start;
+        private System.Windows.Forms.Button QUE;
+        private System.Windows.Forms.Button DEQ;
     }
 }
 

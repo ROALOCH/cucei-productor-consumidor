@@ -1,0 +1,9 @@
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\bin\Debug\ProductorConsumidor.exe.config
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\bin\Debug\ProductorConsumidor.exe
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\bin\Debug\ProductorConsumidor.pdb
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.csprojAssemblyReference.cache
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.Properties.Resources.resources
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.csproj.GenerateResource.cache
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.csproj.CoreCompileInputs.cache
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.exe
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.pdb

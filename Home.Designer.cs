@@ -30,6 +30,7 @@ namespace ProductorConsumidor
         private void InitializeComponent()
         {
             this.GB_Container = new System.Windows.Forms.GroupBox();
+            this.LBL_Count = new System.Windows.Forms.Label();
             this.LBL_19 = new System.Windows.Forms.Label();
             this.LBL_18 = new System.Windows.Forms.Label();
             this.LBL_17 = new System.Windows.Forms.Label();
@@ -50,15 +51,14 @@ namespace ProductorConsumidor
             this.LBL_2 = new System.Windows.Forms.Label();
             this.LBL_1 = new System.Windows.Forms.Label();
             this.LBL_0 = new System.Windows.Forms.Label();
-            this.LBL_Count = new System.Windows.Forms.Label();
             this.GB_Producer = new System.Windows.Forms.GroupBox();
-            this.LBL_ProducerStatus = new System.Windows.Forms.Label();
             this.LBL_ProducerInfo = new System.Windows.Forms.Label();
+            this.LBL_ProducerStatus = new System.Windows.Forms.Label();
             this.GB_Consumer = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LBL_ConsumerInfo = new System.Windows.Forms.Label();
+            this.LBL_ConsumerStatus = new System.Windows.Forms.Label();
             this.GB_Flags = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.BTN_Start = new System.Windows.Forms.Button();
             this.GB_Container.SuspendLayout();
             this.GB_Producer.SuspendLayout();
             this.GB_Consumer.SuspendLayout();
@@ -93,6 +93,15 @@ namespace ProductorConsumidor
             this.GB_Container.TabIndex = 0;
             this.GB_Container.TabStop = false;
             this.GB_Container.Text = "Contenedor";
+            // 
+            // LBL_Count
+            // 
+            this.LBL_Count.Location = new System.Drawing.Point(21, 122);
+            this.LBL_Count.Name = "LBL_Count";
+            this.LBL_Count.Size = new System.Drawing.Size(809, 28);
+            this.LBL_Count.TabIndex = 20;
+            this.LBL_Count.Text = "Vacios: 20     Llenos: 0";
+            this.LBL_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LBL_19
             // 
@@ -286,6 +295,7 @@ namespace ProductorConsumidor
             // 
             // LBL_0
             // 
+            this.LBL_0.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LBL_0.Location = new System.Drawing.Point(16, 37);
             this.LBL_0.Name = "LBL_0";
@@ -293,16 +303,6 @@ namespace ProductorConsumidor
             this.LBL_0.TabIndex = 0;
             this.LBL_0.Text = "1";
             this.LBL_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // LBL_Count
-            // 
-            this.LBL_Count.AutoSize = true;
-            this.LBL_Count.Location = new System.Drawing.Point(328, 122);
-            this.LBL_Count.Name = "LBL_Count";
-            this.LBL_Count.Size = new System.Drawing.Size(178, 28);
-            this.LBL_Count.TabIndex = 20;
-            this.LBL_Count.Text = "Vacios: 20     Llenos: 0";
-            this.LBL_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // GB_Producer
             // 
@@ -315,16 +315,6 @@ namespace ProductorConsumidor
             this.GB_Producer.TabStop = false;
             this.GB_Producer.Text = "Productor";
             // 
-            // LBL_ProducerStatus
-            // 
-            this.LBL_ProducerStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LBL_ProducerStatus.Location = new System.Drawing.Point(16, 48);
-            this.LBL_ProducerStatus.Name = "LBL_ProducerStatus";
-            this.LBL_ProducerStatus.Size = new System.Drawing.Size(221, 81);
-            this.LBL_ProducerStatus.TabIndex = 21;
-            this.LBL_ProducerStatus.Text = "Status";
-            this.LBL_ProducerStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // LBL_ProducerInfo
             // 
             this.LBL_ProducerInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -335,10 +325,20 @@ namespace ProductorConsumidor
             this.LBL_ProducerInfo.Text = "Info";
             this.LBL_ProducerInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // LBL_ProducerStatus
+            // 
+            this.LBL_ProducerStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LBL_ProducerStatus.Location = new System.Drawing.Point(16, 48);
+            this.LBL_ProducerStatus.Name = "LBL_ProducerStatus";
+            this.LBL_ProducerStatus.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ProducerStatus.TabIndex = 21;
+            this.LBL_ProducerStatus.Text = "Status";
+            this.LBL_ProducerStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // GB_Consumer
             // 
-            this.GB_Consumer.Controls.Add(this.label1);
-            this.GB_Consumer.Controls.Add(this.label2);
+            this.GB_Consumer.Controls.Add(this.LBL_ConsumerInfo);
+            this.GB_Consumer.Controls.Add(this.LBL_ConsumerStatus);
             this.GB_Consumer.Location = new System.Drawing.Point(802, 100);
             this.GB_Consumer.Name = "GB_Consumer";
             this.GB_Consumer.Size = new System.Drawing.Size(256, 268);
@@ -346,25 +346,25 @@ namespace ProductorConsumidor
             this.GB_Consumer.TabStop = false;
             this.GB_Consumer.Text = "Consumidor";
             // 
-            // label1
+            // LBL_ConsumerInfo
             // 
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Location = new System.Drawing.Point(16, 165);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(221, 81);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "Info";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LBL_ConsumerInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LBL_ConsumerInfo.Location = new System.Drawing.Point(16, 165);
+            this.LBL_ConsumerInfo.Name = "LBL_ConsumerInfo";
+            this.LBL_ConsumerInfo.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ConsumerInfo.TabIndex = 22;
+            this.LBL_ConsumerInfo.Text = "Info";
+            this.LBL_ConsumerInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // LBL_ConsumerStatus
             // 
-            this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label2.Location = new System.Drawing.Point(16, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(221, 81);
-            this.label2.TabIndex = 21;
-            this.label2.Text = "Status";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LBL_ConsumerStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LBL_ConsumerStatus.Location = new System.Drawing.Point(16, 48);
+            this.LBL_ConsumerStatus.Name = "LBL_ConsumerStatus";
+            this.LBL_ConsumerStatus.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ConsumerStatus.TabIndex = 21;
+            this.LBL_ConsumerStatus.Text = "Status";
+            this.LBL_ConsumerStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // GB_Flags
             // 
@@ -375,23 +375,24 @@ namespace ProductorConsumidor
             this.GB_Flags.TabStop = false;
             this.GB_Flags.Text = "Semáforos";
             // 
-            // button1
+            // BTN_Start
             // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(571, 614);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 35);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "INICIAR";
-            this.button1.UseVisualStyleBackColor = true;
+            this.BTN_Start.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BTN_Start.FlatAppearance.BorderSize = 0;
+            this.BTN_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_Start.Location = new System.Drawing.Point(571, 614);
+            this.BTN_Start.Name = "BTN_Start";
+            this.BTN_Start.Size = new System.Drawing.Size(123, 35);
+            this.BTN_Start.TabIndex = 25;
+            this.BTN_Start.Text = "INICIAR";
+            this.BTN_Start.UseVisualStyleBackColor = true;
+            this.BTN_Start.Click += new System.EventHandler(this.BTN_Start_Click);
             // 
             // FORM_Home
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.GB_Flags);
             this.Controls.Add(this.GB_Consumer);
             this.Controls.Add(this.GB_Producer);
@@ -403,7 +404,6 @@ namespace ProductorConsumidor
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Productor-Consumidor";
             this.GB_Container.ResumeLayout(false);
-            this.GB_Container.PerformLayout();
             this.GB_Producer.ResumeLayout(false);
             this.GB_Consumer.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -438,10 +438,10 @@ namespace ProductorConsumidor
         private System.Windows.Forms.Label LBL_ProducerInfo;
         private System.Windows.Forms.Label LBL_ProducerStatus;
         private System.Windows.Forms.GroupBox GB_Consumer;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LBL_ConsumerInfo;
+        private System.Windows.Forms.Label LBL_ConsumerStatus;
         private System.Windows.Forms.GroupBox GB_Flags;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BTN_Start;
     }
 }
 

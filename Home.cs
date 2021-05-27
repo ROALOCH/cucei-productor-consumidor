@@ -44,7 +44,7 @@ namespace ProductorConsumidor
 
         private void BTN_Start_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         // Logic //
@@ -61,27 +61,28 @@ namespace ProductorConsumidor
 
         private void Queue()
         {
-           if(container.Count == containerCapacity)
+            if (container.Count == containerCapacity)
             {
                 return;
             }
 
             headIndex++;
-           
-            if(headIndex > containerCapacity - 1)
+
+            if (headIndex > containerCapacity - 1)
             {
                 headIndex = 0;
             }
 
-            if(container.Count == 1 && headIndex == 0)
+            if (container.Count == 1 && headIndex == 0)
             {
                 tailIndex = headIndex;
             }
 
-            if(container.Count == 0)
+            if (container.Count == 0)
             {
                 headIndex = 0;
                 tailIndex = headIndex;
+                UpdateNumbers();
             }
 
             container.Enqueue(1);
@@ -97,7 +98,7 @@ namespace ProductorConsumidor
                 return;
             }
 
-            if(tailIndex > containerCapacity - 1)
+            if (tailIndex > containerCapacity - 1)
             {
                 tailIndex = 0;
             }
@@ -107,6 +108,13 @@ namespace ProductorConsumidor
             ChangeCellColor(tailIndex, emptyCellColor);
 
             tailIndex++;
+
+            if(container.Count == 0)
+            {
+                headIndex = 0;
+                tailIndex = headIndex;
+                UpdateNumbers();
+            }
 
             ChangeCellCount(++emptyCells, --occupiedCells);
 
@@ -122,21 +130,21 @@ namespace ProductorConsumidor
         {
             labelArray = new Label[containerCapacity];
 
-            if(direction == "LTR")
+            if (direction == "LTR")
             {
                 for (int i = 0; i < containerCapacity; i++)
                 {
                     Label temp = (Label)Controls.Find($"LBL_{i}", true).First();
-                    temp.Text = (i+1).ToString();
+                    temp.Text = (i + 1).ToString();
                     labelArray[i] = temp;
                 }
             }
 
-            else if(direction == "RTL")
+            else if (direction == "RTL")
             {
                 int aux = containerCapacity - 1;
 
-                for(int i = 0; i < containerCapacity; i++)
+                for (int i = 0; i < containerCapacity; i++)
                 {
                     Label temp = (Label)Controls.Find($"LBL_{aux}", true).First();
                     temp.Text = (i + 1).ToString();

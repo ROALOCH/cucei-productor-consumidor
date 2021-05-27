@@ -7,3 +7,4 @@ C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsu
 C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.csproj.CoreCompileInputs.cache
 C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.exe
 C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.pdb
+C:\Users\Rodrigo Ochoa\source\repos\ProductorConsumidor\obj\Debug\ProductorConsumidor.FORM_Home.resources

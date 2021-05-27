@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ProductorConsumidor
 {
-    public partial class Form1 : Form
+    public partial class FORM_Home : Form
     {
-        public Form1()
+        public FORM_Home()
         {
             InitializeComponent();
         }

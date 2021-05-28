@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +17,10 @@ namespace ProductorConsumidor
 
         static int containerCapacity = 20;
 
-        bool updateNumberOnDequeue = true;
+        int minSleepTime = 1000;
+        int maxSleepTime = 5000;
+
+        bool updateNumberOnDequeue = false;
         Color emptyCellColor = Color.FromName("Control");
         Color occupiedCellColor = Color.FromName("LightSkyBlue");
         String directionOfVisualization = "LTR"; // Left To Right (LTR) or Right To Left (RTL)
@@ -31,6 +35,14 @@ namespace ProductorConsumidor
         int emptyCells = containerCapacity;
         int occupiedCells = 0;
 
+        Random getRandomNumber = new Random();
+
+        bool workingOnContainerFlag = false;
+        int amountToProduce = 0;
+        int amountToConsume = 0;
+
+        int producerSleepingTime = 0;
+        int consumerSleepingTime = 0;
 
         // UI //
 
@@ -44,7 +56,8 @@ namespace ProductorConsumidor
 
         private void BTN_Start_Click(object sender, EventArgs e)
         {
-
+            BW_Producer.RunWorkerAsync();
+            BW_Consumer.RunWorkerAsync();
         }
 
         // Logic //
@@ -82,13 +95,15 @@ namespace ProductorConsumidor
             {
                 headIndex = 0;
                 tailIndex = headIndex;
-                UpdateNumbers();
+
+                if (updateNumberOnDequeue)
+                {
+                    UpdateNumbers();
+                }
             }
 
             container.Enqueue(1);
-
-            ChangeCellColor(headIndex, occupiedCellColor);
-            ChangeCellCount(--emptyCells, ++occupiedCells);
+            BW_Producer.ReportProgress(1);
         }
 
         private void Dequeue()
@@ -189,14 +204,81 @@ namespace ProductorConsumidor
             }
         }
 
-        private void QUE_Click(object sender, EventArgs e)
+        private void UpdateProducerInfo(String state)
         {
-            Queue();
+            LBL_ProducerStatus.Text = state;
         }
 
-        private void DEQ_Click(object sender, EventArgs e)
+        // BACKGROUND WORKER - PRODUCER //
+        private void BW_Producer_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dequeue();
+            while (true)
+            {
+                if (!IsFull() && !workingOnContainerFlag)
+                {
+                    amountToProduce = getRandomNumber.Next(1, emptyCells);
+                    BW_Producer.ReportProgress(2);
+
+                    for(int i = 0; i < amountToProduce; i++)
+                    {
+                        Queue();
+                        Thread.Sleep(300);
+                    }
+                }
+                else
+                {
+                    BW_Producer.ReportProgress(4);
+                    Thread.Sleep(1000);
+                }
+
+                producerSleepingTime = getRandomNumber.Next(minSleepTime, maxSleepTime);
+                BW_Producer.ReportProgress(3);
+
+                Thread.Sleep(producerSleepingTime);
+            }
+        }
+
+        private void BW_Producer_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            int state = e.ProgressPercentage;
+
+            switch (state)
+            {
+                case 1:
+                    ChangeCellColor(headIndex, occupiedCellColor);
+                    ChangeCellCount(--emptyCells, ++occupiedCells);
+                    break;
+                case 2:
+                    UpdateProducerInfo($"PRODUCIENDO {amountToProduce} ELEMENTOS");
+                    break;
+                case 3:
+                    UpdateProducerInfo($"DURMIENDO POR {producerSleepingTime/1000} SEGUNDOS");
+                    break;
+                case 4:
+                    UpdateProducerInfo($"DESPERTÓ E INTENTÓ PRODUCIR, PERO EL CONTENEDOR ESTÁ LLENO");
+                    break;
+            }
+        }
+
+        private void BW_Producer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+        
+        // BACKGROUND WORKER - CONSUMER //
+        private void BW_Consumer_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void BW_Consumer_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void BW_Consumer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
         }
     }
 }

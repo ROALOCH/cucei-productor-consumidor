@@ -59,8 +59,8 @@ namespace ProductorConsumidor
             this.LBL_ConsumerStatus = new System.Windows.Forms.Label();
             this.GB_Flags = new System.Windows.Forms.GroupBox();
             this.BTN_Start = new System.Windows.Forms.Button();
-            this.QUE = new System.Windows.Forms.Button();
-            this.DEQ = new System.Windows.Forms.Button();
+            this.BW_Producer = new System.ComponentModel.BackgroundWorker();
+            this.BW_Consumer = new System.ComponentModel.BackgroundWorker();
             this.GB_Container.SuspendLayout();
             this.GB_Producer.SuspendLayout();
             this.GB_Consumer.SuspendLayout();
@@ -320,9 +320,9 @@ namespace ProductorConsumidor
             // LBL_ProducerInfo
             // 
             this.LBL_ProducerInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LBL_ProducerInfo.Location = new System.Drawing.Point(16, 165);
+            this.LBL_ProducerInfo.Location = new System.Drawing.Point(16, 196);
             this.LBL_ProducerInfo.Name = "LBL_ProducerInfo";
-            this.LBL_ProducerInfo.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ProducerInfo.Size = new System.Drawing.Size(221, 50);
             this.LBL_ProducerInfo.TabIndex = 22;
             this.LBL_ProducerInfo.Text = "Info";
             this.LBL_ProducerInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -332,7 +332,7 @@ namespace ProductorConsumidor
             this.LBL_ProducerStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LBL_ProducerStatus.Location = new System.Drawing.Point(16, 48);
             this.LBL_ProducerStatus.Name = "LBL_ProducerStatus";
-            this.LBL_ProducerStatus.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ProducerStatus.Size = new System.Drawing.Size(221, 148);
             this.LBL_ProducerStatus.TabIndex = 21;
             this.LBL_ProducerStatus.Text = "Status";
             this.LBL_ProducerStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -351,9 +351,9 @@ namespace ProductorConsumidor
             // LBL_ConsumerInfo
             // 
             this.LBL_ConsumerInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LBL_ConsumerInfo.Location = new System.Drawing.Point(16, 165);
+            this.LBL_ConsumerInfo.Location = new System.Drawing.Point(16, 196);
             this.LBL_ConsumerInfo.Name = "LBL_ConsumerInfo";
-            this.LBL_ConsumerInfo.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ConsumerInfo.Size = new System.Drawing.Size(221, 50);
             this.LBL_ConsumerInfo.TabIndex = 22;
             this.LBL_ConsumerInfo.Text = "Info";
             this.LBL_ConsumerInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -363,7 +363,7 @@ namespace ProductorConsumidor
             this.LBL_ConsumerStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LBL_ConsumerStatus.Location = new System.Drawing.Point(16, 48);
             this.LBL_ConsumerStatus.Name = "LBL_ConsumerStatus";
-            this.LBL_ConsumerStatus.Size = new System.Drawing.Size(221, 81);
+            this.LBL_ConsumerStatus.Size = new System.Drawing.Size(221, 148);
             this.LBL_ConsumerStatus.TabIndex = 21;
             this.LBL_ConsumerStatus.Text = "Status";
             this.LBL_ConsumerStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -390,38 +390,26 @@ namespace ProductorConsumidor
             this.BTN_Start.UseVisualStyleBackColor = true;
             this.BTN_Start.Click += new System.EventHandler(this.BTN_Start_Click);
             // 
-            // QUE
+            // BW_Producer
             // 
-            this.QUE.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.QUE.FlatAppearance.BorderSize = 0;
-            this.QUE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.QUE.Location = new System.Drawing.Point(900, 614);
-            this.QUE.Name = "QUE";
-            this.QUE.Size = new System.Drawing.Size(123, 35);
-            this.QUE.TabIndex = 26;
-            this.QUE.Text = "Q";
-            this.QUE.UseVisualStyleBackColor = true;
-            this.QUE.Click += new System.EventHandler(this.QUE_Click);
+            this.BW_Producer.WorkerReportsProgress = true;
+            this.BW_Producer.WorkerSupportsCancellation = true;
+            this.BW_Producer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BW_Producer_DoWork);
+            this.BW_Producer.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BW_Producer_ProgressChanged);
+            this.BW_Producer.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BW_Producer_RunWorkerCompleted);
             // 
-            // DEQ
+            // BW_Consumer
             // 
-            this.DEQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.DEQ.FlatAppearance.BorderSize = 0;
-            this.DEQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.DEQ.Location = new System.Drawing.Point(1029, 614);
-            this.DEQ.Name = "DEQ";
-            this.DEQ.Size = new System.Drawing.Size(123, 35);
-            this.DEQ.TabIndex = 27;
-            this.DEQ.Text = "D";
-            this.DEQ.UseVisualStyleBackColor = true;
-            this.DEQ.Click += new System.EventHandler(this.DEQ_Click);
+            this.BW_Consumer.WorkerReportsProgress = true;
+            this.BW_Consumer.WorkerSupportsCancellation = true;
+            this.BW_Consumer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BW_Consumer_DoWork);
+            this.BW_Consumer.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BW_Consumer_ProgressChanged);
+            this.BW_Consumer.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BW_Consumer_RunWorkerCompleted);
             // 
             // FORM_Home
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.DEQ);
-            this.Controls.Add(this.QUE);
             this.Controls.Add(this.BTN_Start);
             this.Controls.Add(this.GB_Flags);
             this.Controls.Add(this.GB_Consumer);
@@ -472,8 +460,8 @@ namespace ProductorConsumidor
         private System.Windows.Forms.Label LBL_ConsumerStatus;
         private System.Windows.Forms.GroupBox GB_Flags;
         private System.Windows.Forms.Button BTN_Start;
-        private System.Windows.Forms.Button QUE;
-        private System.Windows.Forms.Button DEQ;
+        private System.ComponentModel.BackgroundWorker BW_Producer;
+        private System.ComponentModel.BackgroundWorker BW_Consumer;
     }
 }
 

@@ -21,8 +21,13 @@ namespace ProductorConsumidor
         int maxSleepTime = 5000;
 
         bool updateNumberOnDequeue = false;
+
         Color emptyCellColor = Color.FromName("Control");
         Color occupiedCellColor = Color.FromName("LightSkyBlue");
+
+        Color signalTrue = Color.FromName("LimeGreen");
+        Color signalFalse = Color.FromName("Firebrick");
+
         String directionOfVisualization = "LTR"; // Left To Right (LTR) or Right To Left (RTL)
 
         // Logic //
@@ -38,6 +43,7 @@ namespace ProductorConsumidor
         Random getRandomNumber = new Random();
 
         bool workingOnContainerFlag = false;
+
         int amountToProduce = 0;
         int amountToConsume = 0;
 
@@ -85,23 +91,7 @@ namespace ProductorConsumidor
             {
                 headIndex = 0;
             }
-
-            if (container.Count == 1 && headIndex == 0)
-            {
-                tailIndex = headIndex;
-            }
-
-            if (container.Count == 0)
-            {
-                headIndex = 0;
-                tailIndex = headIndex;
-
-                if (updateNumberOnDequeue)
-                {
-                    UpdateNumbers();
-                }
-            }
-
+           
             container.Enqueue(1);
             BW_Producer.ReportProgress(1);
         }
@@ -113,6 +103,8 @@ namespace ProductorConsumidor
                 return;
             }
 
+            tailIndex++;
+
             if (tailIndex > containerCapacity - 1)
             {
                 tailIndex = 0;
@@ -120,18 +112,15 @@ namespace ProductorConsumidor
 
             container.Dequeue();
 
-            ChangeCellColor(tailIndex, emptyCellColor);
-
-            tailIndex++;
-
+            BW_Consumer.ReportProgress(5); // ChangeCellColor(tailIndex, emptyCellColor);
+           
             if(container.Count == 0)
             {
                 headIndex = 0;
                 tailIndex = headIndex;
-                UpdateNumbers();
             }
 
-            ChangeCellCount(++emptyCells, --occupiedCells);
+            BW_Consumer.ReportProgress(6); // ChangeCellCount(++emptyCells, --occupiedCells);
 
             if (updateNumberOnDequeue)
             {
@@ -207,6 +196,34 @@ namespace ProductorConsumidor
         private void UpdateProducerInfo(String state)
         {
             LBL_ProducerStatus.Text = state;
+            this.Refresh();
+        }
+        private void UpdateConsumerInfo(String state)
+        {
+            LBL_ConsumerStatus.Text = state;
+            this.Refresh();
+        }
+
+        private void UpdateSignals(char entity)
+        {
+            switch (entity)
+            {
+                case 'P': 
+                    LBL_SignalProducer.BackColor = signalTrue; 
+                    LBL_SignalConsumer.BackColor = signalFalse; 
+                    break;
+                case 'C': 
+                    LBL_SignalConsumer.BackColor = signalTrue;
+                    LBL_SignalProducer.BackColor = signalFalse;
+                    break;
+                case 'B':
+                    LBL_SignalConsumer.BackColor = signalTrue;
+                    LBL_SignalProducer.BackColor = signalTrue;
+                    break;
+
+            }
+
+            this.Refresh();
         }
 
         // BACKGROUND WORKER - PRODUCER //
@@ -216,14 +233,20 @@ namespace ProductorConsumidor
             {
                 if (!IsFull() && !workingOnContainerFlag)
                 {
+                    workingOnContainerFlag = true;
+                    BW_Producer.ReportProgress(0);
+
                     amountToProduce = getRandomNumber.Next(1, emptyCells);
                     BW_Producer.ReportProgress(2);
 
                     for(int i = 0; i < amountToProduce; i++)
                     {
                         Queue();
-                        Thread.Sleep(300);
+                        Thread.Sleep(500);
                     }
+
+                    workingOnContainerFlag = false;
+                    BW_Producer.ReportProgress(10);
                 }
                 else
                 {
@@ -244,6 +267,9 @@ namespace ProductorConsumidor
 
             switch (state)
             {
+                case 0:
+                    UpdateSignals('P');
+                    break;
                 case 1:
                     ChangeCellColor(headIndex, occupiedCellColor);
                     ChangeCellCount(--emptyCells, ++occupiedCells);
@@ -255,7 +281,10 @@ namespace ProductorConsumidor
                     UpdateProducerInfo($"DURMIENDO POR {producerSleepingTime/1000} SEGUNDOS");
                     break;
                 case 4:
-                    UpdateProducerInfo($"DESPERTÓ E INTENTÓ PRODUCIR, PERO EL CONTENEDOR ESTÁ LLENO");
+                    UpdateProducerInfo($"DESPERTÓ E INTENTÓ PRODUCIR");
+                    break;
+                case 10: 
+                    UpdateSignals('B'); 
                     break;
             }
         }
@@ -268,12 +297,70 @@ namespace ProductorConsumidor
         // BACKGROUND WORKER - CONSUMER //
         private void BW_Consumer_DoWork(object sender, DoWorkEventArgs e)
         {
+            while (true)
+            {
+                if (!IsEmpty() && !workingOnContainerFlag)
+                {
+                    workingOnContainerFlag = true;
+                    BW_Consumer.ReportProgress(0);
 
+                    amountToConsume = getRandomNumber.Next(1, occupiedCells);
+                    BW_Consumer.ReportProgress(2);
+
+                    for (int i = 0; i < amountToConsume; i++)
+                    {
+                        Dequeue();
+                        Thread.Sleep(500);
+                    }
+
+                    workingOnContainerFlag = false;
+                    BW_Consumer.ReportProgress(10);
+                }
+                else
+                {
+                    BW_Consumer.ReportProgress(4);
+                    Thread.Sleep(1000);
+                }
+
+                consumerSleepingTime = getRandomNumber.Next(minSleepTime, maxSleepTime);
+                BW_Consumer.ReportProgress(3);
+
+                Thread.Sleep(consumerSleepingTime);
+            }
         }
 
         private void BW_Consumer_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            int state = e.ProgressPercentage;
 
+            switch (state)
+            {
+                case 0:
+                    UpdateSignals('C');
+                    break;
+                case 1:
+                    ChangeCellColor(headIndex, occupiedCellColor);
+                    ChangeCellCount(--emptyCells, ++occupiedCells);
+                    break;
+                case 2:
+                    UpdateConsumerInfo($"CONSUMIENDO {amountToConsume} ELEMENTOS");
+                    break;
+                case 3:
+                    UpdateConsumerInfo($"DURMIENDO POR {consumerSleepingTime / 1000} SEGUNDOS");
+                    break;
+                case 4:
+                    UpdateConsumerInfo($"DESPERTÓ E INTENTÓ CONSUMIR");
+                    break;
+                case 5:
+                    ChangeCellColor(tailIndex, emptyCellColor);
+                    break;
+                case 6:
+                    ChangeCellCount(++emptyCells, --occupiedCells);
+                    break;
+                case 10:
+                    UpdateSignals('B');
+                    break;
+            }
         }
 
         private void BW_Consumer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
